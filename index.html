@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Busi · Trading Suite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   THEME SYSTEM
+   Each theme defines 6 variables:
+   --c0  deepest bg
+   --c1  surface (cards, sidebar)
+   --c2  elevated (card headers, inputs)
+   --c3  raised (hover, active)
+   --bd  border colour
+   --acc accent colour (gold, teal, etc.)
+
+   Text always: white / 80% / 50% / 28%
+   so it pops on ANY dark theme.
+═══════════════════════════════════════════════ */
+
+:root {
+  /* THEME 1 — Deep Navy (matches image 2 exactly) */
+  --c0:  #080D1A;
+  --c1:  #101828;
+  --c2:  #18243C;
+  --c3:  #1E2E4A;
+  --bd:  #1E2E4A;
+  --bd2: #283D5C;
+  --acc: #F0B429;
+  --acc-l:#FFD060;
+  --acc-d:#C08010;
+  --acc-glow: rgba(240,180,41,0.28);
+  --acc-dim:  rgba(240,180,41,0.14);
+  --acc-rim:  rgba(240,180,41,0.40);
+
+  --t1: #FFFFFF;
+  --t2: rgba(255,255,255,0.88);
+  --t3: rgba(180,200,230,0.68);
+  --t4: rgba(120,150,190,0.48);
+  --divider: rgba(255,255,255,0.07);
+
+  --green:    #00E887;
+  --green-bg: rgba(0,232,135,0.13);
+  --green-bd: rgba(0,232,135,0.30);
+  --red:      #FF5555;
+  --red-bg:   rgba(255,85,85,0.13);
+  --red-bd:   rgba(255,85,85,0.30);
+  --blue:     #4DAAFF;
+
+  --r:  12px;
+  --rs: 8px;
+  --rxs:6px;
+}
+
+/* THEME 2 — Jet Black */
+body.th2 {
+  --c0:#000000; --c1:#0D0D0D; --c2:#161616; --c3:#1E1E1E;
+  --bd:#222222; --bd2:#2E2E2E;
+  --acc:#F0B429; --acc-l:#FFD060; --acc-d:#C08010;
+  --acc-glow:rgba(240,180,41,0.28); --acc-dim:rgba(240,180,41,0.13); --acc-rim:rgba(240,180,41,0.40);
+  --t3:rgba(210,210,210,0.65); --t4:rgba(150,150,150,0.42); --divider:rgba(255,255,255,0.06);
+  --green:#00E887; --green-bg:rgba(0,232,135,0.12); --green-bd:rgba(0,232,135,0.28);
+  --red:#FF5555; --red-bg:rgba(255,85,85,0.12); --red-bd:rgba(255,85,85,0.28);
+}
+
+/* THEME 3 — Midnight Blue */
+body.th3 {
+  --c0:#05091A; --c1:#0B1130; --c2:#121A44; --c3:#182255;
+  --bd:#1E2A5A; --bd2:#243268;
+  --acc:#6A9FFF; --acc-l:#90BFFF; --acc-d:#3A68DD;
+  --acc-glow:rgba(106,159,255,0.28); --acc-dim:rgba(106,159,255,0.13); --acc-rim:rgba(106,159,255,0.40);
+  --t3:rgba(160,185,255,0.65); --t4:rgba(100,130,220,0.42); --divider:rgba(100,130,255,0.08);
+  --green:#00F090; --green-bg:rgba(0,240,144,0.12); --green-bd:rgba(0,240,144,0.28);
+  --red:#FF6666; --red-bg:rgba(255,102,102,0.12); --red-bd:rgba(255,102,102,0.28);
+}
+
+/* THEME 4 — Deep Forest */
+body.th4 {
+  --c0:#050E08; --c1:#0C1A10; --c2:#12251A; --c3:#182E22;
+  --bd:#1C3422; --bd2:#223E2A;
+  --acc:#00DD77; --acc-l:#20FF96; --acc-d:#00AA55;
+  --acc-glow:rgba(0,221,119,0.28); --acc-dim:rgba(0,221,119,0.12); --acc-rim:rgba(0,221,119,0.38);
+  --t3:rgba(140,220,170,0.65); --t4:rgba(80,160,110,0.44); --divider:rgba(0,221,119,0.08);
+  --green:#00DD77; --green-bg:rgba(0,221,119,0.12); --green-bd:rgba(0,221,119,0.28);
+  --red:#FF6666; --red-bg:rgba(255,102,102,0.12); --red-bd:rgba(255,102,102,0.28);
+  --blue:#44DDAA;
+}
+
+/* THEME 5 — Ember */
+body.th5 {
+  --c0:#0F0605; --c1:#1A0C0A; --c2:#261410; --c3:#301A14;
+  --bd:#362018; --bd2:#422820;
+  --acc:#FF8C35; --acc-l:#FFB060; --acc-d:#CC5E10;
+  --acc-glow:rgba(255,140,53,0.28); --acc-dim:rgba(255,140,53,0.12); --acc-rim:rgba(255,140,53,0.40);
+  --t3:rgba(250,185,140,0.65); --t4:rgba(190,110,75,0.44); --divider:rgba(255,140,53,0.08);
+  --green:#00EE88; --green-bg:rgba(0,238,136,0.12); --green-bd:rgba(0,238,136,0.28);
+  --red:#FF5544; --red-bg:rgba(255,85,68,0.12); --red-bd:rgba(255,85,68,0.28);
+  --blue:#FFB060;
+}
+
+/* THEME 6 — Warm Paper */
+body.th6 {
+  --c0:#EDE6D4; --c1:#F8F2E2; --c2:#FFFFFF; --c3:#FFF8EC;
+  --bd:#D8CCAA; --bd2:#C8BC90;
+  --acc:#A06010; --acc-l:#C88020; --acc-d:#784008;
+  --acc-glow:rgba(160,96,16,0.20); --acc-dim:rgba(160,96,16,0.09); --acc-rim:rgba(160,96,16,0.30);
+  --t1:#1A1208; --t2:rgba(26,18,8,0.88); --t3:rgba(70,45,15,0.65); --t4:rgba(110,80,35,0.44);
+  --divider:rgba(100,70,20,0.12);
+  --green:#157A3A; --green-bg:rgba(21,122,58,0.12); --green-bd:rgba(21,122,58,0.28);
+  --red:#AA2010; --red-bg:rgba(170,32,16,0.10); --red-bd:rgba(170,32,16,0.24);
+  --blue:#1A4A90;
+}
+
+/* THEME 7 — Purple Dusk */
+body.th7 {
+  --c0:#080510; --c1:#10091E; --c2:#18102E; --c3:#201840;
+  --bd:#281E48; --bd2:#342858;
+  --acc:#C055FF; --acc-l:#DD88FF; --acc-d:#8822CC;
+  --acc-glow:rgba(192,85,255,0.28); --acc-dim:rgba(192,85,255,0.12); --acc-rim:rgba(192,85,255,0.40);
+  --t3:rgba(210,160,255,0.65); --t4:rgba(150,100,210,0.44); --divider:rgba(192,85,255,0.08);
+  --green:#00EE99; --green-bg:rgba(0,238,153,0.12); --green-bd:rgba(0,238,153,0.28);
+  --red:#FF6677; --red-bg:rgba(255,102,119,0.12); --red-bd:rgba(255,102,119,0.28);
+  --blue:#88AAFF;
+}
+
+/* THEME 8 — Steel */
+body.th8 {
+  --c0:#070A0F; --c1:#0F1520; --c2:#171E2C; --c3:#1E2838;
+  --bd:#222C3C; --bd2:#2A3648;
+  --acc:#40AADD; --acc-l:#66CCFF; --acc-d:#1880BB;
+  --acc-glow:rgba(64,170,221,0.28); --acc-dim:rgba(64,170,221,0.12); --acc-rim:rgba(64,170,221,0.40);
+  --t3:rgba(150,200,235,0.65); --t4:rgba(90,145,190,0.44); --divider:rgba(64,170,221,0.08);
+  --green:#00EE99; --green-bg:rgba(0,238,153,0.12); --green-bd:rgba(0,238,153,0.28);
+  --red:#FF6666; --red-bg:rgba(255,102,102,0.12); --red-bd:rgba(255,102,102,0.28);
+  --blue:#40AADD;
+}
+
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html, body { height:100%; overflow:hidden; }
+
+body {
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--c0);
+  color:var(--t1);
+  font-size:13px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  transition:background 0.3s;
+}
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+.nav {
+  height:52px;
+  background:var(--c1);
+  border-bottom:1px solid var(--bd);
+  display:flex;
+  align-items:stretch;
+  padding:0 18px;
+  position:sticky; top:0; z-index:200;
+  flex-shrink:0;
+}
+
+.brand {
+  display:flex; align-items:center; gap:10px;
+  padding-right:20px; margin-right:2px;
+  border-right:1px solid var(--bd);
+  flex-shrink:0;
+}
+
+.brand-icon {
+  width:30px; height:30px; border-radius:8px;
+  background:linear-gradient(135deg,var(--acc-l),var(--acc-d));
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px;
+}
+
+.brand-name { font-size:12px; font-weight:700; color:var(--t1); letter-spacing:0.1px; }
+.brand-sub  { font-size:9px; color:var(--t4); letter-spacing:0.8px; text-transform:uppercase; margin-top:1px; }
+
+/* Nav tabs — pill style like image 2 */
+.nav-tabs { display:flex; align-items:center; padding:0 8px; gap:4px; flex:1; }
+
+.ntab {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 14px; font-size:12px; font-weight:500;
+  color:var(--t3); cursor:pointer; border:none; background:transparent;
+  border-radius:100px; transition:all 0.15s;
+  white-space:nowrap; font-family:inherit; letter-spacing:0.1px;
+}
+.ntab:hover { color:var(--t1); background:var(--c2); }
+.ntab.on {
+  background:var(--acc-dim);
+  border:1px solid var(--acc-rim);
+  color:var(--acc);
+  font-weight:600;
+}
+.ntab-em { font-size:13px; }
+
+/* Theme dots */
+.theme-zone {
+  display:flex; align-items:center; gap:6px;
+  padding:0 14px; border-left:1px solid var(--bd);
+  flex-shrink:0;
+}
+.theme-lbl { font-size:9px; font-weight:700; color:var(--t4); letter-spacing:1.2px; text-transform:uppercase; }
+.tdot {
+  width:15px; height:15px; border-radius:50%;
+  cursor:pointer; border:2px solid transparent;
+  transition:all 0.15s; flex-shrink:0;
+}
+.tdot:hover { transform:scale(1.2); }
+.tdot.on { border-color:var(--acc); transform:scale(1.25); box-shadow:0 0 6px var(--acc-glow); }
+.td1{background:linear-gradient(135deg,#080D1A,#18243C);border-color:#1E2E4A!important}
+.td2{background:#0D0D0D;border-color:#2A2A2A!important}
+.td3{background:linear-gradient(135deg,#05091A,#121A44);border-color:#1E2C68!important}
+.td4{background:linear-gradient(135deg,#050E08,#12251A);border-color:#1E3828!important}
+.td5{background:linear-gradient(135deg,#0F0605,#261410);border-color:#3C2018!important}
+.td6{background:linear-gradient(135deg,#F8F2E2,#EDE6D4);border-color:#C8BC90!important}
+.td7{background:linear-gradient(135deg,#090610,#1A1430);border-color:#2C224E!important}
+.td8{background:linear-gradient(135deg,#080B10,#181E2C);border-color:#263044!important}
+
+/* Live badge */
+.live-badge {
+  display:flex; align-items:center; gap:5px;
+  padding:0 0 0 14px; border-left:1px solid var(--bd);
+  font-size:10px; font-weight:600; color:var(--green);
+  flex-shrink:0; letter-spacing:0.2px;
+}
+.live-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--green); animation:pdot 2s infinite;
+}
+@keyframes pdot { 0%,100%{opacity:1}50%{opacity:0.35} }
+
+/* ═══════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════ */
+.app { display:flex; flex-direction:column; height:100vh; }
+.panels { flex:1; overflow:hidden; }
+.panel { display:none; height:100%; }
+.panel.on { display:block; }
+
+/* ═══════════════════════════════════════════════
+   COACH PANEL
+═══════════════════════════════════════════════ */
+.coach-layout { display:flex; height:100%; }
+
+.sidebar {
+  width:190px; flex-shrink:0;
+  background:var(--c1);
+  border-right:1px solid var(--bd);
+  display:flex; flex-direction:column; overflow-y:auto; padding:8px 0 20px;
+}
+
+.sb-sec {
+  padding:14px 16px 5px;
+  font-size:9px; font-weight:700; color:var(--t4);
+  letter-spacing:2px; text-transform:uppercase;
+}
+
+.sb-btn {
+  display:flex; align-items:center; gap:9px;
+  padding:9px 12px; margin:1px 6px; width:calc(100% - 12px);
+  font-size:12px; font-weight:400; color:var(--t3);
+  cursor:pointer; border:none; background:transparent;
+  border-radius:var(--rs); text-align:left;
+  transition:background 0.12s, color 0.12s; font-family:inherit;
+}
+.sb-btn:hover { background:var(--c2); color:var(--t1); }
+.sb-ico { font-size:14px; flex-shrink:0; min-width:18px; }
+.sb-hr { border:none; border-top:1px solid var(--bd); margin:8px 14px; }
+
+/* Chat */
+.chat-main { flex:1; display:flex; flex-direction:column; overflow:hidden; background:var(--c0); }
+
+.ctx-bar {
+  height:36px; background:var(--c1); border-bottom:1px solid var(--bd);
+  display:flex; align-items:center; padding:0 16px; gap:7px; flex-shrink:0; overflow-x:auto;
+}
+.ctx-bar::-webkit-scrollbar { display:none; }
+.ctx-lbl { font-size:9px; font-weight:700; color:var(--t4); letter-spacing:0.8px; text-transform:uppercase; white-space:nowrap; }
+.ctx-tag {
+  background:var(--acc-dim); border:1px solid var(--acc-rim);
+  border-radius:100px; padding:2px 9px;
+  font-size:10px; font-weight:600; color:var(--acc);
+  white-space:nowrap; flex-shrink:0;
+}
+
+.msgs { flex:1; overflow-y:auto; padding:20px 16px; display:flex; flex-direction:column; gap:14px; scroll-behavior:smooth; }
+.msgs::-webkit-scrollbar { width:3px; }
+.msgs::-webkit-scrollbar-thumb { background:var(--bd2); border-radius:3px; }
+
+.mrow { display:flex; gap:10px; align-items:flex-start; }
+.mrow.u { flex-direction:row-reverse; }
+
+.mav {
+  width:28px; height:28px; border-radius:8px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:13px; margin-top:2px;
+}
+.mrow.c .mav { background:linear-gradient(135deg,var(--acc-l),var(--acc-d)); }
+.mrow.u .mav { background:var(--c2); border:1px solid var(--bd); }
+
+.mbubble {
+  max-width:78%; background:var(--c1); border:1px solid var(--bd);
+  border-radius:var(--r) var(--r) var(--r) 4px;
+  padding:11px 14px; font-size:12.5px; line-height:1.68; color:var(--t2);
+}
+.mrow.u .mbubble {
+  background:var(--acc-dim); border-color:var(--acc-rim);
+  border-radius:var(--r) var(--r) 4px var(--r); color:var(--t1);
+}
+.mbubble b, .mbubble strong { color:var(--t1); font-weight:600; }
+.mbubble pre { background:var(--c0); border:1px solid var(--bd); border-radius:var(--rxs); padding:9px 11px; font-size:11px; font-family:monospace; white-space:pre-wrap; margin-top:8px; color:var(--acc-l); }
+
+.typing-row { display:flex; gap:4px; align-items:center; padding:4px 0; }
+.tda { width:5px; height:5px; border-radius:50%; background:var(--t4); animation:tdb 1.3s infinite; }
+.tda:nth-child(2){animation-delay:0.22s} .tda:nth-child(3){animation-delay:0.44s}
+@keyframes tdb { 0%,60%,100%{transform:translateY(0);opacity:0.35}30%{transform:translateY(-5px);opacity:1} }
+
+.quick-bar {
+  padding:8px 16px; border-top:1px solid var(--bd);
+  background:var(--c1); display:flex; flex-wrap:wrap; gap:5px; flex-shrink:0;
+}
+.qc {
+  background:var(--c2); border:1px solid var(--bd2);
+  border-radius:100px; padding:5px 12px;
+  font-size:11px; font-weight:500; color:var(--t3);
+  cursor:pointer; transition:all 0.12s; font-family:inherit;
+}
+.qc:hover { border-color:var(--acc-rim); color:var(--acc); background:var(--acc-dim); }
+
+.chat-foot { padding:11px 16px 14px; background:var(--c1); border-top:1px solid var(--bd); flex-shrink:0; }
+.chat-row { display:flex; gap:8px; align-items:flex-end; }
+.chat-inp {
+  flex:1; background:var(--c2); border:1px solid var(--bd2);
+  border-radius:var(--r); color:var(--t1); font-family:inherit;
+  font-size:13px; padding:10px 13px; outline:none; resize:none;
+  max-height:120px; line-height:1.5; transition:border-color 0.15s;
+}
+.chat-inp:focus { border-color:var(--acc-rim); }
+.chat-inp::placeholder { color:var(--t4); }
+.send-btn {
+  width:38px; height:38px; border:none; border-radius:9px; flex-shrink:0;
+  background:linear-gradient(135deg,var(--acc-l),var(--acc-d));
+  color:#fff; font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:opacity 0.15s;
+}
+.send-btn:hover { opacity:0.85; }
+.send-btn:disabled { opacity:0.35; cursor:not-allowed; }
+.ihint { font-size:10px; color:var(--t4); margin-top:7px; text-align:center; }
+
+/* ═══════════════════════════════════════════════
+   SCROLL PANELS
+═══════════════════════════════════════════════ */
+.scroll-panel { height:100%; overflow-y:auto; padding:26px 20px 56px; background:var(--c0); }
+.scroll-panel::-webkit-scrollbar { width:3px; }
+.scroll-panel::-webkit-scrollbar-thumb { background:var(--bd2); border-radius:3px; }
+.content-wrap { max-width:720px; margin:0 auto; }
+
+/* Accent separator line (like image 2's orange-gold line under header) */
+.pg-header {
+  margin-bottom:22px;
+  padding-bottom:18px;
+  border-bottom:2px solid var(--acc);
+  box-shadow:0 1px 0 var(--acc-glow);
+}
+.pg-eyebrow { font-size:9px; font-weight:700; color:var(--acc); letter-spacing:2.5px; text-transform:uppercase; margin-bottom:5px; }
+.pg-title   { font-size:26px; font-weight:800; letter-spacing:-0.5px; color:var(--t1); margin-bottom:4px; line-height:1.1; }
+.pg-sub     { font-size:12px; color:var(--t3); }
+
+/* ═══════════════════════════════════════════════
+   STAT CARDS — match image 2 exactly
+═══════════════════════════════════════════════ */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+
+.stat-card {
+  background:var(--c1);
+  border:1px solid var(--bd);
+  /* Subtle top accent inner glow — gives the "elevated" feel from image 2 */
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.06);
+  border-radius:var(--r);
+  padding:14px 16px;
+  position:relative; overflow:hidden;
+}
+
+/* Thin left accent bar — the secret of image 2's premium feel */
+.stat-card.accent::before {
+  content:'';
+  position:absolute; left:0; top:20%; bottom:20%;
+  width:2.5px; background:var(--acc);
+  border-radius:0 2px 2px 0;
+}
+
+.stat-lbl {
+  font-size:9px; font-weight:700; color:var(--acc);
+  letter-spacing:1.8px; text-transform:uppercase; margin-bottom:7px; opacity:0.75;
+}
+.stat-val  { font-size:26px; font-weight:800; color:var(--t1); line-height:1; font-variant-numeric:tabular-nums; }
+
+/* ═══════════════════════════════════════════════
+   SUB TABS — pill row like image 2
+═══════════════════════════════════════════════ */
+.sub-tabs {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:6px; margin-bottom:18px;
+}
+
+.atab {
+  padding:9px 10px; text-align:center;
+  font-size:12px; font-weight:500; color:var(--t4);
+  cursor:pointer; border-radius:100px; border:1px solid var(--bd);
+  background:var(--c1); transition:all 0.15s; font-family:inherit;
+  display:flex; align-items:center; justify-content:center; gap:5px;
+}
+.atab:hover { color:var(--t2); border-color:var(--bd2); }
+.atab.on {
+  background:var(--acc);
+  border-color:var(--acc);
+  color:#000;
+  font-weight:700;
+}
+
+/* ═══════════════════════════════════════════════
+   CARD
+═══════════════════════════════════════════════ */
+.card {
+  background:var(--c1); border:1px solid var(--bd);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+  border-radius:var(--r); padding:18px 20px; margin-bottom:12px;
+}
+.card-lbl {
+  font-size:9px; font-weight:700; color:var(--acc);
+  letter-spacing:2px; text-transform:uppercase; margin-bottom:13px; display:block;
+}
+
+/* ═══════════════════════════════════════════════
+   FORM
+═══════════════════════════════════════════════ */
+.field { margin-bottom:10px; }
+.fl {
+  display:block; font-size:10px; font-weight:700;
+  color:var(--acc); letter-spacing:0.8px; text-transform:uppercase; margin-bottom:5px;
+}
+.fi, .fs, .fta {
+  width:100%; background:var(--c2); border:1px solid var(--bd2);
+  border-radius:var(--rs); color:var(--t1); font-family:inherit;
+  font-size:13px; padding:9px 12px; outline:none; resize:vertical;
+  transition:border-color 0.15s; -webkit-appearance:none; appearance:none;
+}
+.fi:focus,.fs:focus,.fta:focus { border-color:var(--acc-rim); }
+.fi::placeholder,.fta::placeholder { color:var(--t4); }
+.fs {
+  cursor:pointer; padding-right:30px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23607090' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 11px center;
+}
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+
+/* ═══════════════════════════════════════════════
+   TRADE BLOCK — matches image 2 card style
+═══════════════════════════════════════════════ */
+.trade-block {
+  background:var(--c1); border:1px solid var(--bd);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+  border-radius:var(--r); margin-bottom:10px; overflow:hidden;
+}
+.trade-hdr {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:11px 16px; background:var(--c2); border-bottom:1px solid var(--bd);
+}
+.trade-lbl { font-size:12px; font-weight:700; color:var(--acc); display:flex; align-items:center; gap:8px; }
+.pair-tag {
+  background:var(--acc-dim); border:1px solid var(--acc-rim);
+  border-radius:5px; padding:1px 8px;
+  font-size:10px; font-weight:700; color:var(--acc); font-family:monospace;
+}
+.rm-btn {
+  font-size:11px; font-weight:500; color:var(--t4);
+  background:none; border:none; cursor:pointer;
+  padding:3px 8px; border-radius:5px; transition:color 0.12s; font-family:inherit;
+}
+.rm-btn:hover { color:var(--red); }
+.trade-body { padding:14px 16px; }
+
+/* ═══════════════════════════════════════════════
+   SNAPSHOT
+═══════════════════════════════════════════════ */
+.snap-wrap {
+  margin-top:12px; background:var(--c0);
+  border:1px solid var(--bd); border-radius:var(--rs); padding:12px;
+}
+.snap-hdr { font-size:9px; font-weight:700; color:var(--t3); letter-spacing:1.8px; text-transform:uppercase; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+.snap-list { display:flex; flex-direction:column; gap:6px; }
+.snap-link-row { display:flex; align-items:center; gap:7px; background:var(--c1); border:1px solid var(--bd); border-radius:var(--rxs); padding:7px 10px; }
+.tf-sel { border:none; background:transparent; color:var(--acc); font-family:monospace; font-size:9px; font-weight:700; cursor:pointer; outline:none; padding:0; width:56px; letter-spacing:0.5px; text-transform:uppercase; }
+.snap-url { flex:1; border:none; background:transparent; color:var(--t2); font-family:inherit; font-size:12px; outline:none; }
+.snap-url::placeholder { color:var(--t4); }
+.ico-btn { background:none; border:none; cursor:pointer; color:var(--t4); font-size:14px; transition:color 0.12s; display:flex; align-items:center; flex-shrink:0; }
+.ico-btn:hover { color:var(--acc); }
+.ico-btn.del:hover { color:var(--red); }
+.img-card { border:1px solid var(--bd); border-radius:var(--rxs); overflow:hidden; }
+.img-card img { width:100%; max-height:170px; object-fit:contain; display:block; background:var(--c0); }
+.img-foot { padding:5px 10px; background:var(--c2); display:flex; align-items:center; justify-content:space-between; font-size:10px; color:var(--t4); border-top:1px solid var(--bd); }
+.add-snap { display:flex; align-items:center; justify-content:center; gap:5px; width:100%; padding:8px; border-radius:var(--rxs); border:1px dashed var(--bd2); background:transparent; color:var(--t4); font-size:11px; font-weight:500; cursor:pointer; transition:all 0.12s; font-family:inherit; margin-top:6px; }
+.add-snap:hover { border-color:var(--acc-rim); color:var(--acc); }
+.snap-tip { font-size:10px; color:var(--t4); margin-top:7px; line-height:1.5; }
+
+/* ═══════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════ */
+.add-trade {
+  width:100%; border:1px dashed var(--acc-rim); background:var(--acc-dim);
+  border-radius:var(--r); padding:11px; font-size:12px; font-weight:600; color:var(--acc);
+  cursor:pointer; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:6px;
+  transition:all 0.15s; font-family:inherit;
+}
+.add-trade:hover { background:rgba(232,184,75,0.15); }
+
+.btn-acc {
+  width:100%; font-family:inherit;
+  background:linear-gradient(135deg,var(--acc-l),var(--acc-d));
+  color:#000; border:none; border-radius:var(--r);
+  padding:13px; font-size:13px; font-weight:700;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:opacity 0.15s;
+}
+.btn-acc:hover { opacity:0.88; }
+.btn-acc:disabled { opacity:0.4; cursor:not-allowed; }
+
+.btn-ghost {
+  width:100%; font-family:inherit; background:none;
+  border:1px solid var(--bd2); color:var(--t4);
+  border-radius:var(--r); padding:10px; font-size:12px; font-weight:500;
+  cursor:pointer; margin-top:8px; transition:all 0.12s;
+}
+.btn-ghost:hover { border-color:var(--t3); color:var(--t2); }
+
+/* ═══════════════════════════════════════════════
+   ANALYSIS OUTPUT
+═══════════════════════════════════════════════ */
+.verdict-block {
+  background:var(--c1); border:1px solid var(--acc-rim); border-left:3px solid var(--acc);
+  border-radius:var(--r); padding:18px 20px; margin-bottom:13px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.v-eyebrow { font-size:9px; font-weight:700; color:var(--acc); letter-spacing:2.5px; text-transform:uppercase; margin-bottom:8px; }
+.v-text    { font-size:14px; line-height:1.65; font-weight:600; color:var(--t1); }
+
+.rsec {
+  background:var(--c1); border:1px solid var(--bd);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
+  border-radius:var(--r); padding:14px 16px; margin-bottom:9px;
+}
+.rtitle { font-size:11px; font-weight:700; margin-bottom:11px; display:flex; align-items:center; gap:7px; }
+.ritem { display:flex; align-items:flex-start; gap:8px; font-size:12px; line-height:1.65; color:var(--t2); padding:7px 0; border-bottom:1px solid var(--divider); }
+.ritem:last-child { border-bottom:none; padding-bottom:0; }
+.rarr { flex-shrink:0; margin-top:2px; font-weight:700; }
+
+.mini { background:var(--c1); border:1px solid var(--bd); border-radius:var(--r); padding:12px 14px; margin-bottom:8px; }
+.mlbl { font-size:9px; font-weight:700; letter-spacing:1.8px; text-transform:uppercase; margin-bottom:5px; }
+.mtxt { font-size:12px; line-height:1.6; color:var(--t2); }
+
+.fitem { display:flex; align-items:flex-start; gap:10px; padding:10px 12px; background:var(--c2); border:1px solid var(--bd); border-radius:var(--rs); margin-bottom:7px; font-size:12px; line-height:1.5; color:var(--t2); }
+.fnum { width:20px; height:20px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,var(--acc-l),var(--acc-d)); color:#000; font-size:9px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+
+.motive { background:var(--c1); border:1px solid var(--bd); border-radius:var(--r); padding:15px 17px; margin-bottom:9px; text-align:center; font-size:13px; color:var(--t3); font-style:italic; line-height:1.7; }
+.save-cue { background:var(--green-bg); border:1px solid var(--green-bd); border-radius:var(--r); padding:12px 14px; font-size:12px; color:var(--green); line-height:1.6; }
+
+.err-bar { background:var(--red-bg); border:1px solid var(--red-bd); border-radius:var(--rs); padding:10px 14px; color:var(--red); font-size:12px; margin-bottom:11px; }
+.empty { text-align:center; padding:36px 20px; color:var(--t4); font-size:13px; line-height:1.7; }
+.empty-ico { font-size:34px; margin-bottom:12px; }
+.load-note { text-align:center; font-size:11px; color:var(--t4); padding:8px 0; }
+
+/* Goals */
+.ghi { background:var(--c1); border:1px solid var(--bd); box-shadow:inset 0 1px 0 rgba(255,255,255,0.04); border-radius:var(--r); padding:14px 16px; margin-bottom:9px; }
+.ghw { font-size:10px; font-weight:700; color:var(--acc); margin-bottom:9px; display:flex; align-items:center; gap:6px; }
+.gline { display:flex; gap:9px; align-items:flex-start; font-size:12px; line-height:1.5; color:var(--t2); padding:6px 0; border-bottom:1px solid var(--divider); }
+.gline:last-child { border-bottom:none; }
+.gnum { width:16px; height:16px; border-radius:50%; background:var(--green); color:#000; font-size:8px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+
+/* Light theme overrides */
+body.th6 .fs {
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23784008' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+body.th6 .fs option { background:#F8F2E2; color:#1A1208; }
+body.th6 .tf-sel option { background:#F8F2E2; color:#1A1208; }
+body.th6 .tf-sel { color:var(--acc); }
+body.th6 .live-badge { color:var(--green); }
+body.th6 .live-dot { background:var(--green); }
+body.th6 .btn-acc { color:#fff; }
+body.th6 .fnum { color:#fff; }
+body.th6 .atab.on { color:#fff; }
+body.th6 .stat-lbl { opacity:0.85; }
+
+/* ═══════════════════════════
+   MOBILE — full iPhone fix
+═══════════════════════════ */
+@media(max-width:700px){
+  html,body { height:100%; overflow:hidden; }
+
+  /* Hide desktop sidebar */
+  .sidebar { display:none !important; }
+
+  /* Nav bar — compact, scrollable */
+  .nav { padding:0 10px; overflow-x:auto; -webkit-overflow-scrolling:touch; flex-shrink:0; }
+  .nav::-webkit-scrollbar { display:none; }
+  .brand { padding-right:10px; flex-shrink:0; }
+  .brand-sub { display:none; }
+  .brand-name { font-size:11px; white-space:nowrap; }
+  .theme-zone { padding:0 8px; gap:4px; }
+  .theme-lbl { display:none; }
+  .tdot { width:13px; height:13px; }
+  .live-badge { padding:0 0 0 8px; font-size:9px; white-space:nowrap; }
+
+  /* Nav tabs — compact pills that fit */
+  .nav-tabs { gap:3px; padding:0 4px; flex-shrink:0; overflow:visible; }
+  .ntab { padding:5px 11px; font-size:11px; white-space:nowrap; }
+  .ntab-em { font-size:12px; }
+
+  /* Coach panel */
+  .coach-layout { flex-direction:column; height:100%; }
+  .chat-main { flex:1; display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+  .msgs { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 12px; }
+  .mbubble { max-width:88%; font-size:12.5px; }
+  .quick-bar { padding:7px 10px; gap:4px; flex-shrink:0; }
+  .qc { font-size:10px; padding:4px 10px; }
+
+  /* Input — CRITICAL: font-size 16px prevents iOS zoom */
+  .chat-foot { padding:8px 12px 24px; flex-shrink:0; }
+  .chat-inp { font-size:16px; border-radius:10px; }
+  .send-btn { width:42px; height:42px; font-size:18px; flex-shrink:0; }
+  .ihint { display:none; }
+
+  /* Scroll panels */
+  .scroll-panel { overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px 13px 50px; }
+
+  /* Stats */
+  .stats-row { grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:14px; }
+  .stat-val { font-size:22px; }
+  .stat-card { padding:12px 14px; }
+
+  /* Sub tabs */
+  .sub-tabs { gap:5px; margin-bottom:14px; }
+  .atab { font-size:11px; padding:9px 6px; }
+
+  /* Form */
+  .g2 { grid-template-columns:1fr; gap:8px; }
+  .fi,.fs,.fta { font-size:16px; } /* prevent iOS zoom on focus */
+
+  /* Trade blocks */
+  .trade-hdr { padding:9px 13px; }
+  .trade-body { padding:12px 13px; }
+
+  /* Page header */
+  .pg-title { font-size:21px; }
+  .pg-header { margin-bottom:16px; padding-bottom:14px; }
+
+  /* Ctx bar hidden */
+  .ctx-bar { display:none; }
+
+  /* Card padding */
+  .card { padding:15px 14px; }
+}
+
+@media(max-width:380px){
+  .ntab { padding:5px 8px; font-size:10px; }
+  .ntab-em { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="brand">
+      <div class="brand-icon">📈</div>
+      <div>
+        <div class="brand-name">Busi · Trading Suite</div>
+        <div class="brand-sub">Price Action · BOS / COC · 1:3 RR</div>
+      </div>
+    </div>
+
+    <div class="nav-tabs">
+      <button class="ntab on" id="nt-coach"    onclick="showPanel('coach')">   <span class="ntab-em">💬</span> Daily Coach</button>
+      <button class="ntab"    id="nt-analyser" onclick="showPanel('analyser')"><span class="ntab-em">📊</span> Analyser</button>
+      <button class="ntab"    id="nt-goals"    onclick="showPanel('goals')">   <span class="ntab-em">🎯</span> Goals</button>
+    </div>
+
+    <div class="theme-zone">
+      <span class="theme-lbl">Theme</span>
+      <div class="tdot td1 on" id="th0" onclick="applyTheme('')"    title="Deep Navy"></div>
+      <div class="tdot td2"    id="th1" onclick="applyTheme('th2')" title="Jet Black"></div>
+      <div class="tdot td3"    id="th2" onclick="applyTheme('th3')" title="Midnight Blue"></div>
+      <div class="tdot td4"    id="th3" onclick="applyTheme('th4')" title="Forest"></div>
+      <div class="tdot td5"    id="th4" onclick="applyTheme('th5')" title="Ember"></div>
+      <div class="tdot td6"    id="th5" onclick="applyTheme('th6')" title="Warm Paper"></div>
+      <div class="tdot td7"    id="th6" onclick="applyTheme('th7')" title="Purple Dusk"></div>
+      <div class="tdot td8"    id="th7" onclick="applyTheme('th8')" title="Steel"></div>
+    </div>
+
+    <div class="live-badge"><div class="live-dot"></div> Claude Active</div>
+  </nav>
+
+  <div class="panels">
+
+    <!-- ══ COACH ══ -->
+    <div class="panel on" id="panel-coach">
+      <div class="coach-layout">
+        <div class="sidebar">
+          <div class="sb-sec">Actions</div>
+          <button class="sb-btn" onclick="qs('Analyse my chart setup: ')">             <span class="sb-ico">🔍</span><span>Chart review</span></button>
+          <button class="sb-btn" onclick="qs('I just took a trade. Pair: , Direction: , Entry: , SL: , TP: , Reason: ')"><span class="sb-ico">📝</span><span>Log a trade</span></button>
+          <button class="sb-btn" onclick="qs('My SL got hit then price moved in my direction. What happened: ')"><span class="sb-ico">😤</span><span>SL swept</span></button>
+          <button class="sb-btn" onclick="qs('I missed a trade that moved without sweeping. What happened: ')"><span class="sb-ico">👁</span><span>Missed trade</span></button>
+          <button class="sb-btn" onclick="qs('I am confused about this price action situation: ')">             <span class="sb-ico">❓</span><span>Confused</span></button>
+          <button class="sb-btn" onclick="qs('Help me do my weekly review. My trades this week: ')">           <span class="sb-ico">📅</span><span>Weekly review</span></button>
+          <div class="sb-hr"></div>
+          <div class="sb-sec">Tools</div>
+          <button class="sb-btn" onclick="showPanel('analyser')"><span class="sb-ico">📊</span><span>Run analyser</span></button>
+          <button class="sb-btn" onclick="showPanel('goals')"   ><span class="sb-ico">🎯</span><span>My goals</span></button>
+          <div class="sb-hr"></div>
+          <button class="sb-btn" onclick="clearChat()"><span class="sb-ico">🗑</span><span>Clear chat</span></button>
+        </div>
+
+        <div class="chat-main">
+          <div class="ctx-bar">
+            <span class="ctx-lbl">Context</span>
+            <span class="ctx-tag">1H Trend</span>
+            <span class="ctx-tag">BOS / COC</span>
+            <span class="ctx-tag">1:3 RR</span>
+            <span class="ctx-tag">Price Action</span>
+            <span class="ctx-tag">Funded Account</span>
+          </div>
+          <div class="msgs" id="msgs"></div>
+          <div class="quick-bar">
+            <button class="qc" onclick="qs('Was that a real structure break or a liquidity sweep?')">Real break or sweep?</button>
+            <button class="qc" onclick="qs('Should I enter now or wait for confirmation?')">Enter or wait?</button>
+            <button class="qc" onclick="qs('Where should I place my stop loss on this setup?')">Where is my SL?</button>
+            <button class="qc" onclick="qs('Is this an A+ setup or should I skip it?')">A+ or skip?</button>
+            <button class="qc" onclick="qs('What is the higher timeframe bias right now?')">HTF bias?</button>
+          </div>
+          <div class="chat-foot">
+            <div class="chat-row">
+              <textarea class="chat-inp" id="cinp" placeholder="Ask your trading coach anything..." rows="1" onkeydown="hkey(event)" oninput="arz(this)"></textarea>
+              <button class="send-btn" id="sbtn" onclick="sendMsg()" ontouchend="sendMsg()">➤</button>
+            </div>
+            <div class="ihint">Enter to send · Shift+Enter for new line · Requires internet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ANALYSER ══ -->
+    <div class="panel" id="panel-analyser">
+      <div class="scroll-panel">
+        <div class="content-wrap">
+          <div class="pg-header">
+            <div class="pg-eyebrow">Weekly Review</div>
+            <div class="pg-title">Trade Analyser</div>
+            <div class="pg-sub">Log every trade · Write your reflection · Get your AI coaching report</div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat-card"><div class="stat-lbl">Trades</div><div class="stat-val" id="sv-t">0</div></div>
+            <div class="stat-card"><div class="stat-lbl">Win Rate</div><div class="stat-val" id="sv-w" style="color:var(--t4)">—</div></div>
+            <div class="stat-card"><div class="stat-lbl">SL Swept</div><div class="stat-val" id="sv-s">0</div></div>
+            <div class="stat-card accent"><div class="stat-lbl">A+ Grade</div><div class="stat-val" id="sv-a" style="color:var(--green)">0</div></div>
+          </div>
+
+          <div class="sub-tabs">
+            <button class="atab on" id="at-t" onclick="showATab('t')"><span>📋</span> Trades</button>
+            <button class="atab"    id="at-n" onclick="showATab('n')"><span>📝</span> Notes</button>
+            <button class="atab"    id="at-r" onclick="showATab('r')"><span>🧠</span> Analysis</button>
+          </div>
+
+          <div id="ap-t">
+            <div id="tlist"></div>
+            <button class="add-trade" onclick="addTrade()">+ Add Trade</button>
+          </div>
+
+          <div id="ap-n" style="display:none">
+            <div class="card">
+              <span class="card-lbl">Weekly Reflection</span>
+              <p style="font-size:12px;color:var(--t3);margin-bottom:12px;line-height:1.7">Write freely. What patterns did you notice? Were you patient? Did you break any rules? What confused you? The more detail the sharper the analysis.</p>
+              <textarea class="fta" id="wnote" rows="11" oninput="document.getElementById('nlen').textContent=this.value.length+' chars'" placeholder="Example: Price swept the low on XAUUSD twice before continuing up. I closed one winner early. London was more disciplined than New York..."></textarea>
+              <div id="nlen" style="font-size:10px;color:var(--t4);margin-top:5px">0 chars</div>
+            </div>
+          </div>
+
+          <div id="ap-r" style="display:none">
+            <div id="aout"><div class="empty"><div class="empty-ico">🧠</div>Add your trades and weekly reflection,<br>then click Run AI Analysis below.</div></div>
+          </div>
+
+          <div id="aerr" class="err-bar" style="display:none"></div>
+          <button class="btn-acc" id="runbtn" onclick="runAnalysis()">Run AI Analysis</button>
+          <div class="load-note" id="ltxt" style="display:none">Reading your trades and notes — about 10 seconds...</div>
+          <button class="btn-ghost" onclick="clearA()">Clear All Trades & Notes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ GOALS ══ -->
+    <div class="panel" id="panel-goals">
+      <div class="scroll-panel">
+        <div class="content-wrap">
+          <div class="pg-header">
+            <div class="pg-eyebrow">Weekly Focus</div>
+            <div class="pg-title">My Goals</div>
+            <div class="pg-sub">Save your 3 focus points after each Sunday analysis. Stored permanently on this device.</div>
+          </div>
+          <div class="card" style="margin-bottom:20px">
+            <span class="card-lbl">Save New Goals</span>
+            <div class="field"><label class="fl">📅 Week of</label><input class="fi" id="gw" type="text" placeholder="e.g. July 28 – Aug 1 2025"></div>
+            <div class="field"><label class="fl">🥇 Goal 1 — Primary focus</label><textarea class="fta" id="g1" rows="2" placeholder="e.g. Give SL 8 more pips below the obvious level"></textarea></div>
+            <div class="field"><label class="fl">🥈 Goal 2 — Secondary focus</label><textarea class="fta" id="g2" rows="2" placeholder="e.g. Only trade London and Overlap sessions"></textarea></div>
+            <div class="field"><label class="fl">🥉 Goal 3 — Discipline focus</label><textarea class="fta" id="g3" rows="2" placeholder="e.g. No C or D grade setups — A and B only"></textarea></div>
+            <button class="btn-acc" style="margin-top:14px" onclick="saveGoals()">Save Goals</button>
+          </div>
+          <div id="ghist"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SYS=`You are Busi's dedicated forex trading coach. Busi is a physics student at KNUST in Ghana who trades forex, gold (XAUUSD), silver (XAGUSD) and BTCUSD on funded MT5 accounts.
+
+BUSI'S STRATEGY:
+- Identifies trend on 1H — higher highs and higher lows for uptrend
+- Waits for a pullback creating a lower TF downtrend
+- Enters on BOS or COC on 1min or 3min timeframe
+- Targets previous high (uptrend) or previous low (downtrend)
+- Minimum 1:3 risk to reward ratio
+- SL at structural low (buy) or structural high (sell)
+
+KEY CONTEXT:
+- About one year of active trading with significant screen time and strong intuition
+- Faith-based mindset (Muslim) — trusts Allah for provision, does not tie self worth to results
+- No longer closes winners early — good emotional discipline
+- Never trades when tired, stressed or emotionally compromised
+- Reviews every loss to understand the reason
+- Main challenges: SL swept before price continues, missing trades without 50% pullback, occasional forced entries
+- Trades funded accounts — marks all trades on TradingView with snapshot links
+
+COACHING STYLE: Direct, honest, specific. Reference Busi's actual strategy. Walk through confused trades across timeframes. Distinguish real structure breaks from liquidity sweeps. Be encouraging but never dishonest.`;
+
+const ALL_THEMES=['','th2','th3','th4','th5','th6','th7','th8'];
+let chat=[],cloading=false,trades=[],tid=0,snaps={};
+const TFS=['Daily','4H','1H','15min','5min','3min','1min','HTF'];
+
+function applyTheme(t){
+  ALL_THEMES.forEach(th=>{ if(th) document.body.classList.remove(th); });
+  if(t) document.body.classList.add(t);
+  ALL_THEMES.forEach((th,i)=>document.getElementById('th'+i).classList.toggle('on',th===t));
+  localStorage.setItem('bts_theme',t);
+}
+
+function showPanel(n){
+  ['coach','analyser','goals'].forEach(p=>{
+    document.getElementById('panel-'+p).classList.toggle('on',p===n);
+    document.getElementById('nt-'+p).classList.toggle('on',p===n);
+  });
+  if(n==='goals') renderGoals();
+}
+
+function showATab(n){
+  ['t','n','r'].forEach(t=>{
+    document.getElementById('ap-'+t).style.display=t===n?'block':'none';
+    document.getElementById('at-'+t).classList.toggle('on',t===n);
+  });
+}
+
+function renderChat(){
+  const c=document.getElementById('msgs');
+  c.innerHTML=chat.map(m=>{
+    const u=m.role==='user';
+    return `<div class="mrow ${u?'u':'c'}"><div class="mav">${u?'👤':'📈'}</div><div><div class="mbubble">${fmt(m.content)}</div></div></div>`;
+  }).join('');
+  c.scrollTop=c.scrollHeight;
+}
+
+function fmt(t){
+  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/```([\s\S]*?)```/g,'<pre>$1</pre>').replace(/\n/g,'<br>');
+}
+
+function addTyping(){
+  const c=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='mrow c';d.id='typing';
+  d.innerHTML='<div class="mav">📈</div><div><div class="mbubble"><div class="typing-row"><div class="tda"></div><div class="tda"></div><div class="tda"></div></div></div></div>';
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+function rmTyping(){ const e=document.getElementById('typing');if(e)e.remove(); }
+
+async function sendMsg(){
+  const inp=document.getElementById('cinp');
+  const txt=inp.value.trim();
+  if(!txt||cloading)return;
+  inp.value='';inp.style.height='auto';
+  chat.push({role:'user',content:txt});
+  renderChat();addTyping();
+  cloading=true;document.getElementById('sbtn').disabled=true;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:SYS,messages:chat})});
+    const d=await r.json();
+    const reply=(d.content||[]).map(b=>b.text||'').join('');
+    rmTyping();chat.push({role:'assistant',content:reply});renderChat();
+  }catch(e){
+    rmTyping();chat.push({role:'assistant',content:'Connection failed. Check your internet and try again.'});renderChat();
+  }finally{ cloading=false;document.getElementById('sbtn').disabled=false; }
+}
+
+function qs(t){ document.getElementById('cinp').value=t;document.getElementById('cinp').focus();showPanel('coach'); }
+function hkey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
+function arz(el){ el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px'; }
+
+// iOS Safari needs this to prevent double-fire on touch
+let lastSend=0;
+const _sendMsg=sendMsg;
+sendMsg=function(){
+  const now=Date.now();
+  if(now-lastSend<800)return;
+  lastSend=now;
+  _sendMsg();
+};
+function clearChat(){ if(chat.length<=1||confirm('Clear this conversation?')){chat=[];welcome();} }
+
+function welcome(){
+  const msg = `As-salamu alaykum Busi 🙏\n\nYour trading coach is ready. I know your full strategy and background.\n\n**Get started:**\n- Describe a chart you are looking at right now\n- Tell me about a trade that confused you\n- Ask about BOS, COC, liquidity sweeps, or any price action concept\n- Use the sidebar shortcuts for common situations\n\nHow can I help you today?`;
+  chat = [{role:'assistant', content: msg}];
+  renderChat();
+}
+
+function addTrade(){
+  tid++;
+  trades.push({id:tid,pair:'',session:'London',direction:'Buy',result:'Win',grade:'A',swept:'No',r:'',lesson:''});
+  snaps[tid]={links:[{tf:'1H',url:''},{tf:'Entry TF',url:''}],imgs:[]};
+  renderTrades();updateStats();
+}
+
+function removeTrade(id){ trades=trades.filter(t=>t.id!==id);delete snaps[id];renderTrades();updateStats(); }
+function sf(id,f,v){ const t=trades.find(t=>t.id===id);if(t){t[f]=v;updateStats();} }
+function addLink(id){ const used=snaps[id].links.map(l=>l.tf);const next=TFS.find(t=>!used.includes(t))||'TF'+(snaps[id].links.length+1);snaps[id].links.push({tf:next,url:''});renderTrades(); }
+function removeLink(id,i){ snaps[id].links.splice(i,1);renderTrades(); }
+function setLink(id,i,v){ if(snaps[id]?.links[i])snaps[id].links[i].url=v; }
+function setTF(id,i,v){ if(snaps[id]?.links[i])snaps[id].links[i].tf=v; }
+function openLink(id,i){ const u=snaps[id].links[i].url.trim();if(u)window.open(u,'_blank'); }
+function handleImgs(id,input){ Array.from(input.files).forEach(f=>{ const r=new FileReader();r.onload=e=>{snaps[id].imgs.push({src:e.target.result,name:f.name});renderTrades();};r.readAsDataURL(f); }); }
+function removeImg(id,i){ snaps[id].imgs.splice(i,1);renderTrades(); }
+
+function renderTrades(){
+  const w=document.getElementById('tlist');
+  if(!trades.length){ w.innerHTML='<div class="empty"><div class="empty-ico">📋</div>No trades logged yet.<br>Click Add Trade to start.</div>';return; }
+  w.innerHTML=trades.map((t,i)=>{
+    const s=snaps[t.id]||{links:[],imgs:[]};
+    const linkRows=s.links.map((l,li)=>`
+      <div class="snap-link-row">
+        <select class="tf-sel" onchange="setTF(${t.id},${li},this.value)">${TFS.map(tf=>`<option value="${tf}" ${l.tf===tf?'selected':''}>${tf}</option>`).join('')}</select>
+        <input class="snap-url" type="url" placeholder="Paste TradingView snapshot link..." value="${l.url}" oninput="setLink(${t.id},${li},this.value)" onchange="setLink(${t.id},${li},this.value)">
+        <button class="ico-btn" onclick="openLink(${t.id},${li})" title="Open">↗</button>
+        <button class="ico-btn del" onclick="removeLink(${t.id},${li})" title="Remove">✕</button>
+      </div>`).join('');
+    const imgRows=s.imgs.map((img,ii)=>`
+      <div class="img-card"><img src="${img.src}" alt="${img.name}">
+        <div class="img-foot"><span>${img.name}</span><button class="ico-btn del" onclick="removeImg(${t.id},${ii})">Remove</button></div>
+      </div>`).join('');
+    return `
+    <div class="trade-block">
+      <div class="trade-hdr">
+        <div class="trade-lbl">Trade ${i+1}${t.pair?` <span class="pair-tag">${t.pair}</span>`:''}</div>
+        <button class="rm-btn" onclick="removeTrade(${t.id})">Remove</button>
+      </div>
+      <div class="trade-body">
+        <div class="g2">
+          <div class="field"><label class="fl">Pair</label><input class="fi" placeholder="e.g. XAUUSD" value="${t.pair}" oninput="sf(${t.id},'pair',this.value.toUpperCase())"></div>
+          <div class="field"><label class="fl">Session</label><select class="fs" onchange="sf(${t.id},'session',this.value)">${['London','New York','Overlap','Asian'].map(s=>`<option ${t.session===s?'selected':''}>${s}</option>`).join('')}</select></div>
+          <div class="field"><label class="fl">Direction</label><select class="fs" onchange="sf(${t.id},'direction',this.value)"><option ${t.direction==='Buy'?'selected':''}>Buy</option><option ${t.direction==='Sell'?'selected':''}>Sell</option></select></div>
+          <div class="field"><label class="fl">Result</label><select class="fs" onchange="sf(${t.id},'result',this.value)"><option ${t.result==='Win'?'selected':''}>Win</option><option ${t.result==='Loss'?'selected':''}>Loss</option><option ${t.result==='Breakeven'?'selected':''}>Breakeven</option></select></div>
+          <div class="field"><label class="fl">Setup Grade</label><select class="fs" onchange="sf(${t.id},'grade',this.value)"><option value="A" ${t.grade==='A'?'selected':''}>A — Perfect</option><option value="B" ${t.grade==='B'?'selected':''}>B — Minor compromise</option><option value="C" ${t.grade==='C'?'selected':''}>C — Forced entry</option><option value="D" ${t.grade==='D'?'selected':''}>D — Broke rules</option></select></div>
+          <div class="field"><label class="fl">SL Swept First?</label><select class="fs" onchange="sf(${t.id},'swept',this.value)"><option ${t.swept==='No'?'selected':''}>No</option><option ${t.swept==='Yes'?'selected':''}>Yes</option></select></div>
+          <div class="field" style="grid-column:1/-1"><label class="fl">R Achieved</label><input class="fi" placeholder="e.g. 3R or -1R" value="${t.r}" oninput="sf(${t.id},'r',this.value)"></div>
+        </div>
+        <div class="field"><label class="fl">Lesson / Note</label><textarea class="fta" rows="2" placeholder="What went wrong or right? What would you do differently?" oninput="sf(${t.id},'lesson',this.value)">${t.lesson}</textarea></div>
+        <div class="snap-wrap">
+          <div class="snap-hdr">📷 Chart Snapshots — add all timeframes</div>
+          <div class="snap-list">${linkRows}</div>
+          <button class="add-snap" onclick="addLink(${t.id})">+ Add timeframe link</button>
+          ${imgRows?`<div class="snap-list" style="margin-top:8px">${imgRows}</div>`:''}
+          <label style="cursor:pointer;display:block"><div class="add-snap" style="margin-top:6px">+ Upload chart image<input type="file" accept="image/*" multiple style="display:none" onchange="handleImgs(${t.id},this)"></div></label>
+          <div class="snap-tip">On TradingView click the 📷 camera icon to generate a snapshot link. Add one per timeframe.</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateStats(){
+  const tot=trades.length,w=trades.filter(t=>t.result==='Win').length;
+  const sw=trades.filter(t=>t.swept==='Yes').length,ag=trades.filter(t=>t.grade==='A').length;
+  const wr=tot>0?Math.round((w/tot)*100):null;
+  document.getElementById('sv-t').textContent=tot;
+  const we=document.getElementById('sv-w');
+  we.textContent=wr!==null?wr+'%':'—';
+  we.style.color=wr===null?'var(--t4)':wr>=50?'var(--green)':'var(--red)';
+  const se=document.getElementById('sv-s');
+  se.textContent=sw;se.style.color=sw>tot/2&&tot>0?'var(--red)':'var(--t1)';
+  document.getElementById('sv-a').textContent=ag;
+}
+
+async function runAnalysis(){
+  const note=document.getElementById('wnote').value.trim();
+  if(!trades.length&&!note){showErr('Add at least one trade or a weekly note.');return;}
+  hideErr();
+  const btn=document.getElementById('runbtn');
+  btn.disabled=true;btn.textContent='Analysing...';
+  document.getElementById('ltxt').style.display='block';
+  const summary=trades.map((t,i)=>{
+    const s=snaps[t.id]||{links:[],imgs:[]};
+    const lnks=s.links.filter(l=>l.url).map(l=>`${l.tf}: ${l.url}`).join(' | ');
+    const snap=lnks+(s.imgs.length?` + ${s.imgs.length} image(s)`:'') || 'None';
+    return `Trade ${i+1}: Pair=${t.pair||'unspecified'}, Direction=${t.direction}, Session=${t.session}, Result=${t.result}, Grade=${t.grade}, SL Swept=${t.swept}, R=${t.r||'?'}, Snapshots=${snap}, Lesson="${t.lesson}"`;
+  }).join('\n');
+  const prompt=`Expert forex coach reviewing Busi's weekly journal. Strategy: 1H trend → lower TF pullback → BOS/COC on 1-3min → 1:3 RR. SL at structural level.\n\nTRADES:\n${summary||'None.'}\n\nNOTES:\n${note||'None.'}\n\nRespond ONLY with valid JSON no markdown:\n{"verdict":"one sentence verdict","strengths":["s1","s2","s3"],"weaknesses":["w1","w2","w3"],"patterns":["p1","p2"],"slInsight":"SL insight","focusNextWeek":["f1","f2","f3"],"gradeAnalysis":"grade insight","sessionInsight":"session insight","motivationalClose":"one honest encouraging sentence for Busi"}`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const d=await r.json();
+    const txt=(d.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    renderAnalysis(JSON.parse(txt));showATab('r');
+  }catch(e){ showErr('Analysis failed. Check your internet and try again.');
+  }finally{ btn.disabled=false;btn.textContent='Run AI Analysis';document.getElementById('ltxt').style.display='none'; }
+}
+
+function renderAnalysis(a){
+  const sec=(t,items,col)=>!items?.length?'':
+    `<div class="rsec" style="border-left:3px solid ${col}"><div class="rtitle" style="color:${col}">${t}</div>${items.map(x=>`<div class="ritem"><span class="rarr" style="color:${col}">›</span><span>${x}</span></div>`).join('')}</div>`;
+  const mini=(l,txt,col)=>
+    `<div class="mini" style="border-left:3px solid ${col}"><div class="mlbl" style="color:${col}">${l}</div><div class="mtxt">${txt}</div></div>`;
+  document.getElementById('aout').innerHTML=
+    `<div class="verdict-block"><div class="v-eyebrow">Weekly Verdict</div><div class="v-text">${a.verdict}</div></div>
+    ${sec('What You Did Well',a.strengths,'var(--green)')}
+    ${sec('What Needs Work',a.weaknesses,'var(--red)')}
+    ${sec('Patterns Identified',a.patterns,'var(--acc)')}
+    ${mini('Stop Loss Insight',a.slInsight,'var(--red)')}
+    ${mini('Setup Grade Analysis',a.gradeAnalysis,'var(--acc)')}
+    ${mini('Session Performance',a.sessionInsight,'var(--blue)')}
+    <div class="rsec" style="border-left:3px solid var(--acc)"><div class="rtitle" style="color:var(--acc)">Focus For Next Week</div>${(a.focusNextWeek||[]).map((x,i)=>`<div class="fitem"><span class="fnum">${i+1}</span><span>${x}</span></div>`).join('')}</div>
+    <div class="motive">🙏 ${a.motivationalClose}</div>
+    <div class="save-cue"><strong>Save these goals</strong> — go to the Goals tab and paste your 3 focus points. Stored permanently on this device.</div>`;
+}
+
+function clearA(){
+  if(!confirm('Clear all trades and notes?'))return;
+  trades=[];tid=0;snaps={};
+  document.getElementById('wnote').value='';document.getElementById('nlen').textContent='0 chars';
+  document.getElementById('aout').innerHTML='<div class="empty"><div class="empty-ico">🧠</div>Add trades and your reflection then run analysis.</div>';
+  renderTrades();updateStats();showATab('t');
+}
+
+function showErr(m){ const e=document.getElementById('aerr');e.textContent=m;e.style.display='block'; }
+function hideErr(){ document.getElementById('aerr').style.display='none'; }
+
+function saveGoals(){
+  const w=document.getElementById('gw').value.trim();
+  const g1=document.getElementById('g1').value.trim(),g2=document.getElementById('g2').value.trim(),g3=document.getElementById('g3').value.trim();
+  if(!w||(!g1&&!g2&&!g3)){alert('Fill in the week and at least one goal.');return;}
+  const list=JSON.parse(localStorage.getItem('bts_goals')||'[]');
+  list.unshift({w,g1,g2,g3});
+  localStorage.setItem('bts_goals',JSON.stringify(list.slice(0,20)));
+  ['gw','g1','g2','g3'].forEach(id=>document.getElementById(id).value='');
+  renderGoals();
+}
+
+function renderGoals(){
+  const list=JSON.parse(localStorage.getItem('bts_goals')||'[]');
+  const c=document.getElementById('ghist');
+  if(!list.length){c.innerHTML='<div class="empty"><div class="empty-ico">🎯</div>No saved goals yet.<br>Save your first week above.</div>';return;}
+  c.innerHTML='<div style="font-size:9px;font-weight:700;color:var(--t4);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">Goal History</div>'+
+  list.map(g=>`<div class="ghi"><div class="ghw">📅 ${g.w}</div>${g.g1?`<div class="gline"><span class="gnum">1</span><span>${g.g1}</span></div>`:''}${g.g2?`<div class="gline"><span class="gnum">2</span><span>${g.g2}</span></div>`:''}${g.g3?`<div class="gline"><span class="gnum">3</span><span>${g.g3}</span></div>`:''}</div>`).join('');
+}
+
+// Init
+const sv=localStorage.getItem('bts_theme');
+if(sv!==null){
+  ALL_THEMES.forEach(t=>{ if(t) document.body.classList.remove(t); });
+  if(sv) document.body.classList.add(sv);
+  ALL_THEMES.forEach((t,i)=>document.getElementById('th'+i).classList.toggle('on',t===sv));
+}
+welcome();
+renderTrades();
+updateStats();
+renderGoals();
+</script>
+</body>
+</html>
