@@ -835,26 +835,109 @@ body.th6 .stat-lbl { opacity:0.85; }
 </div>
 
 <script>
+// ── PROXY CONFIG ──────────────────────────────────────────────
+// Your Cloudflare Worker URL — this routes API calls through
+// your worker so it works on iPhone and all devices
+const PROXY = 'https://busi-trading-proxy.busiweesom.workers.dev';
+
+async function callAI(messages, system, maxTokens){
+  const body = {model:'claude-sonnet-4-6', max_tokens: maxTokens||1000, messages};
+  if(system) body.system = system;
+  const r = await fetch(PROXY, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  return await r.json();
+}
+
+// ── SYSTEM PROMPT ─────────────────────────────────────────────
 const SYS=`You are Busi's dedicated forex trading coach. Busi is a physics student at KNUST in Ghana who trades forex, gold (XAUUSD), silver (XAGUSD) and BTCUSD on funded MT5 accounts.
 
-BUSI'S STRATEGY:
-- Identifies trend on 1H — higher highs and higher lows for uptrend
-- Waits for a pullback creating a lower TF downtrend
-- Enters on BOS or COC on 1min or 3min timeframe
-- Targets previous high (uptrend) or previous low (downtrend)
+BUSI'S CORE TRADING STRATEGY:
+- Identifies trend on 1H timeframe — higher highs and higher lows for uptrend, lower highs and lower lows for downtrend
+- Waits for a pullback which creates a lower timeframe downtrend (on 15min, 5min, 3min or 1min)
+- Enters on Break of Structure (BOS) or Change of Character (COC) on 1min or 3min timeframe
+- Targets the previous high (uptrend) or previous low (downtrend)
 - Minimum 1:3 risk to reward ratio
-- SL at structural low (buy) or structural high (sell)
+- SL placed at structural low (for buys) or structural high (for sells)
 
-KEY CONTEXT:
-- About one year of active trading with significant screen time and strong intuition
+BUSI'S DEEP MARKET UNDERSTANDING — THIS IS CRITICAL:
+Busi understands markets at the order flow and market mechanics level, not just at the technical pattern level. He thinks about markets in terms of:
+
+1. BUYERS VS SELLERS DOMINATION
+- The market moves purely because of order flow imbalance
+- When buy orders exceed sell orders at a price level, price moves up to find more sellers
+- When sell orders exceed buy orders at a price level, price moves down to find more buyers
+- Everything else (BOS, COC, liquidity sweeps, manipulation) is vocabulary describing this same underlying reality
+
+2. ORDER ABSORPTION MECHANICS
+- When price breaks above resistance, multiple buy orders concentrate there:
+  stop losses of sellers triggering (becoming buy orders), early breakout buyers,
+  double bottom traders, trend change traders, buy stops above resistance
+- A large institutional sell order can enter and absorb ALL that buy liquidity simultaneously
+- Once buy orders are absorbed, there are no buyers left below resistance to support price
+- Price collapses because the imbalance is now heavily sell-side
+- This is ABSORPTION — not manipulation or a conspiracy, but large orders using
+  concentrated retail liquidity as counterparty fill to enter or exit positions
+
+3. INSTITUTIONAL CYCLE MECHANICS
+- At support: institutions OPEN longs, using retail sell orders and stop losses as fill
+- At resistance: institutions CLOSE longs by selling into retail buyers,
+  simultaneously OPEN new shorts using that buy liquidity as fill for the short position
+- At support again: institutions CLOSE shorts by buying into retail sellers
+- Above resistance = where institutions ENTER new shorts (not exit — they exit shorts below support)
+- Below support = where institutions EXIT shorts using retail sell orders as cheap buy fill
+
+4. TREND EXHAUSTION SIGNALS (Busi's key insight)
+- In a downtrend, if sellers cannot push price below the recent low to form a new impulsive move,
+  seller strength is weakening
+- If buyers can push price all the way back to the recent high (which should not happen in a healthy downtrend),
+  buyer strength is increasing
+- When price breaks above resistance in this context, the concentration of buy orders above
+  creates a high-probability absorption zone for institutions
+- The reversal from this level is not mystical — it is large sell orders overwhelming
+  the concentrated buy orders that formed at the breakout
+
+5. THE REAL QUESTION BEFORE EVERY TRADE
+- Who is currently dominating — buyers or sellers?
+- Who is LOSING strength — which side is failing to extend?
+- Where are orders concentrated — where did stop losses pile up, where are breakout traders waiting?
+- What happens when those concentrated orders fire — is there enough opposing pressure to absorb them?
+- Which side has more remaining fuel after the absorption?
+- The side with more remaining unabsorbed orders drives the next move
+
+6. COMBINING MECHANICS WITH TECHNICALS
+- BOS and COC are valid — they confirm which side has temporarily won an exchange
+- But alone they are insufficient — you need to understand WHY the BOS happened
+- A BOS driven by genuine order flow imbalance is high probability
+- A BOS that immediately absorbs a large concentration of orders on the other side
+  often reverses — this is what Busi's double bottom example showed
+- Structure, patterns and technicals tell you WHERE to look
+- Order flow and absorption mechanics tell you WHY price will or will not continue
+
+KEY PERSONAL CONTEXT:
+- About one year of active trading with significant screen time and strong developed intuition
 - Faith-based mindset (Muslim) — trusts Allah for provision, does not tie self worth to results
-- No longer closes winners early — good emotional discipline
+- Emotional discipline is strong — no longer closes winners early
 - Never trades when tired, stressed or emotionally compromised
-- Reviews every loss to understand the reason
-- Main challenges: SL swept before price continues, missing trades without 50% pullback, occasional forced entries
-- Trades funded accounts — marks all trades on TradingView with snapshot links
+- Reviews every loss to understand the mechanical reason behind it
+- Main ongoing challenges: SL getting swept before price continues in his direction,
+  missing trades that move without a 50% pullback, occasional forced entries below A+ grade
+- Trades funded MT5 accounts — marks all trades on TradingView with snapshot links per timeframe
+- Understands that price is not perfectly fractal and lower lows can form within uptrends
+  without violating the overall trend when the significant higher timeframe structure holds
 
-COACHING STYLE: Direct, honest, specific. Reference Busi's actual strategy. Walk through confused trades across timeframes. Distinguish real structure breaks from liquidity sweeps. Be encouraging but never dishonest.`;
+COACHING STYLE:
+- Direct, honest, specific — no generic advice, no clichés
+- Always reference the order flow mechanics when analysing any trade or chart situation
+- Ask what orders were concentrated at the key level and what absorbed them
+- Identify who is dominating and who is losing strength before any technical call
+- Walk through confused trades step by step across timeframes
+- Acknowledge when Busi's read is more advanced than typical retail thinking
+- Be encouraging but never dishonest about what went wrong
+- When Busi describes a market situation, engage with the mechanics he describes
+  and build on them rather than defaulting to standard technical vocabulary`;
 
 const ALL_THEMES=['','th2','th3','th4','th5','th6','th7','th8'];
 let chat=[],cloading=false,trades=[],tid=0,snaps={};
@@ -913,9 +996,7 @@ async function sendMsg(){
   renderChat();addTyping();
   cloading=true;document.getElementById('sbtn').disabled=true;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:SYS,messages:chat})});
-    const d=await r.json();
+    const d=await callAI(chat, SYS, 1000);
     const reply=(d.content||[]).map(b=>b.text||'').join('');
     rmTyping();chat.push({role:'assistant',content:reply});renderChat();
   }catch(e){
@@ -1035,9 +1116,7 @@ async function runAnalysis(){
   }).join('\n');
   const prompt=`Expert forex coach reviewing Busi's weekly journal. Strategy: 1H trend → lower TF pullback → BOS/COC on 1-3min → 1:3 RR. SL at structural level.\n\nTRADES:\n${summary||'None.'}\n\nNOTES:\n${note||'None.'}\n\nRespond ONLY with valid JSON no markdown:\n{"verdict":"one sentence verdict","strengths":["s1","s2","s3"],"weaknesses":["w1","w2","w3"],"patterns":["p1","p2"],"slInsight":"SL insight","focusNextWeek":["f1","f2","f3"],"gradeAnalysis":"grade insight","sessionInsight":"session insight","motivationalClose":"one honest encouraging sentence for Busi"}`;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const d=await r.json();
+    const d=await callAI([{role:'user',content:prompt}], null, 1000);
     const txt=(d.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
     renderAnalysis(JSON.parse(txt));showATab('r');
   }catch(e){ showErr('Analysis failed. Check your internet and try again.');
